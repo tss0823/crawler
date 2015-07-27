@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="ProxyMapper">  
+   
+	<resultMap type="Proxy" id="proxyMap">
+		<result  column="id" property="id"/>
+		<result  column="ip" property="ip"/>
+		<result  column="port" property="port"/>
+		<result  column="gmt_create" property="gmtCreate"/>
+		<result  column="gmt_modify" property="gmtModify"/>
+		<result  column="del_state" property="delState"/>
+	</resultMap>
+	
+	<sql id="whereSql">
+		del_state = 1
+		<if test="id != null and id != '' ">
+		 and  `id` = #{id}
+		</if> 
+		<if test="ip != null and ip != '' ">
+		 and  `ip` = #{ip}
+		</if> 
+		<if test="port != null and port != '' ">
+		 and  `port` = #{port}
+		</if> 
+		<if test="gmtCreate != null and gmtCreate != '' ">
+		 and  `gmt_create` = #{gmtCreate}
+		</if> 
+		<if test="gmtModify != null and gmtModify != '' ">
+		 and  `gmt_modify` = #{gmtModify}
+		</if> 
+	</sql>
+	
+	<select id="getProxy" resultMap="proxyMap">
+		 select * from proxy WHERE id = #{id}
+    </select>
+    
+    <insert id="insertProxy" parameterType="Proxy" >  
+        <selectKey keyProperty="id" resultType="Long" order="AFTER" >
+	      select LAST_INSERT_ID()
+	   </selectKey>
+		insert into proxy   
+		(
+		`ip`,`port`,`gmt_create`,`gmt_modify`,`del_state`
+		) 
+		values
+		(
+		#{ ip},#{ port},now(6),now(6),1
+		)
+    </insert>  
+    
+    <update id="updateProxy" parameterType="Proxy">  
+		update proxy set
+		`ip` = #{ ip},`port` = #{ port},`gmt_modify` = #{ gmtModify}
+		where id = #{id}
+    </update>  
+    
+	<select id="getProxyList" resultMap="proxyMap"  parameterType="Map">
+      select * from proxy 
+      <where>
+         <include refid="whereSql"/>
+      </where>
+    </select>
+    
+	<select id="getProxyListPage" resultMap="proxyMap"  parameterType="Map">
+      select * from proxy 
+      <where>
+         <include refid="whereSql"/>
+      </where>
+        order by id desc 
+         limit #{startRow},#{pageSize} 
+    </select>
+    
+	<select id="getProxyListPageCount" resultType="Integer"  parameterType="Map">
+      select count(*) from proxy 
+      <where>
+         <include refid="whereSql"/>
+      </where>
+    </select>
+    
+     <update id="deleteProxy" parameterType="Long">  
+        update  proxy set del_state = 0  where id = #{id}
+     </update>  
+	 
+     <!-- user definition code start -->
+     <!-- user definition code end -->
+</mapper> 
+
+

@@ -1,0 +1,49 @@
+#set($layout = "/layout/blankLayout.vm")
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>登录</title>
+<link rel="stylesheet" type="text/css" href="$!{stylesPath}stylesCommon/v1/login.css" />
+<script type="text/javascript" src="$!{scriptsPath}scriptsCommon/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="$!{scriptsPath}scriptsCommon/lhgdialog/lhgdialog.min.js"></script>
+<script type="text/javascript" src="$!{scriptsPath}scriptsCommon/common-1.0.0.js"></script>
+<script type="text/javascript" src="$!{scriptsPath}scriptsCommon/login.js"></script>
+
+</head>
+<body>
+<form method="post" action="login.htm">
+	<input type="hidden" name="sysCode" value="$!sysCode" />
+	<div class="login">
+    <div class="login_text_bg_div">
+	<div class="login_text_in_div">	
+	 <p class="label">
+    	用户名：
+	</p>
+	<p class="text">
+    	<input type="text" name="username" id="username" class="input_text" />
+	</p>
+	<p  class="label">
+    	密码：
+	</p> 
+	<p  class="text">
+    	<input type="password" name="password" id="password"  class="input_text" /> 
+	</p> 
+	<p  class="label">
+    	验证码：
+	</p> 
+	<p  class="text">
+    	<input type="text" name="validateCode" id="validateCode" class="input_text" style="width:90px" />
+		<img class="validate_code" title="点击更换"  src="validateCode.htm">
+	</p> 
+	##<p>
+	##	<input type="checkbox" name="remember" /> 记住我 
+	##</p> 
+	<p class="p_login"> 
+		<input type="button" class="btn_login" />
+	</p> 
+	</div>
+	</div>
+	</div>
+</form>
+</body>
+</html>	

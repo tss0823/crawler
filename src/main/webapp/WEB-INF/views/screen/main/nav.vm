@@ -1,0 +1,4 @@
+#set($layout = "/layout/frameLayout.vm")
+<div id="navTitle" class="navTitle">
+	<a>系统管理  》 添加用户</a>
+</div>

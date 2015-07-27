@@ -1,0 +1,23 @@
+<div class="basic">
+    <ul class="form-tab">
+        <li class="c">
+            <span>操作提示</span>
+        </li>
+    </ul>
+    <div class="formbox">
+        <div class="clear"></div>
+        <!-- 错误提示 -->
+        <div class="nr error-box">
+            <div class="nr-t"></div>
+            <div class="nr-c" style="height:100px;">
+                <div class="text">
+                    <h4>很抱歉，您要访问的页面不存在。</h4>
+                </div>
+            </div>
+            <div class="nr-b"></div>
+        </div>
+        <!-- 错误提示 END -->
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>

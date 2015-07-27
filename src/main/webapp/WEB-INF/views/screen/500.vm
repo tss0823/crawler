@@ -1,0 +1,22 @@
+<div class="basic">
+    <div class="formbox">
+        <div class="clear"></div>
+        <!-- 错误提示 -->
+        <div class="nr error-box">
+            <div class="nr-t"></div>
+            <div class="nr-c" style="height:100px;">
+                <div class="text">
+                    <h4>服务器错误，请联系管理员解决。</h4>
+					<a href="#" class="but" onclick="javascript:window.history.go(-1);return false;">返回</a>
+					<div style="display:none">
+					$!{exceptionTrace}
+					</div>
+                </div>
+            </div>
+            <div class="nr-b"></div>
+        </div>
+        <!-- 错误提示 END -->
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>

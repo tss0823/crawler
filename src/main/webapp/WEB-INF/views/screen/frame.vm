@@ -1,0 +1,21 @@
+#set($layout = "/layout/blankLayout.vm")
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+</head>
+<frameset rows="93,*" frameborder="no" border="0" framespacing="0">
+	<frame name="frameTop" id="frameTop" src="top.htm" frameBorder="no" marginWidth="0" marginHeight="0" noResize="" scrolling="no">
+	<frameset name="frameMain" id="frameMain" cols="130,*" border="0" borderColor="#0099ff" frameBorder="0" frameSpacing="0" >
+		<frame name="frameLeft" id="frameLeft" src="left.htm" frameBorder="0" marginWidth="0" marginHeight="0" scrolling="no">
+		<frameset name="frameMainRight" id="frameMainRight" rows="29,*" border="0" borderColor="#0099ff" frameBorder="0" frameSpacing="0" >
+		<frame name="frameNav" src="nav.htm" frameBorder="0" noResize="">
+		<frame name="frameRight" src="main.htm" frameBorder="0" noResize="">
+        </frameset>	
+    </frameset>	
+</frameset>
+<noframes>
+<body>
+</body>
+</noframes>
+</html>

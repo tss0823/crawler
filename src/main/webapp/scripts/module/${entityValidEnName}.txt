@@ -1,0 +1,6 @@
+vSettings = {
+		rules:{
+		},
+		
+		messages:{
+		}

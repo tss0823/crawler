@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="ParseContentMapper">  
+   
+	<resultMap type="ParseContent" id="parseContentMap">
+		<result  column="content" property="content"/>
+		<result  column="id" property="id"/>
+		<result  column="gmt_create" property="gmtCreate"/>
+		<result  column="gmt_modify" property="gmtModify"/>
+		<result  column="del_state" property="delState"/>
+		<result  column="task_tp_id" property="taskTpId"/>
+		<result  column="task_inst_id" property="taskInstId"/>
+	</resultMap>
+	
+	<sql id="whereSql">
+		del_state = 1
+		<if test="content != null and content != '' ">
+		 and  `content` = #{content}
+		</if> 
+		<if test="id != null and id != '' ">
+		 and  `id` = #{id}
+		</if> 
+		<if test="gmtCreate != null and gmtCreate != '' ">
+		 and  `gmt_create` = #{gmtCreate}
+		</if> 
+		<if test="gmtModify != null and gmtModify != '' ">
+		 and  `gmt_modify` = #{gmtModify}
+		</if> 
+		<if test="taskTpId != null and taskTpId != '' ">
+		 and  `task_tp_id` = #{taskTpId}
+		</if> 
+		<if test="taskInstId != null and taskInstId != '' ">
+		 and  `task_inst_id` = #{taskInstId}
+		</if> 
+	</sql>
+	
+	<select id="getParseContent" resultMap="parseContentMap">
+		 select * from parse_content WHERE id = #{id}
+    </select>
+    
+    <insert id="insertParseContent" parameterType="ParseContent" >  
+        <selectKey keyProperty="id" resultType="Long" order="AFTER" >
+	      select LAST_INSERT_ID()
+	   </selectKey>
+		insert into parse_content   
+		(
+		`content`,`gmt_create`,`gmt_modify`,`del_state`,`task_tp_id`,`task_inst_id`
+		) 
+		values
+		(
+		#{ content},now(6),now(6),1,#{ taskTpId},#{ taskInstId}
+		)
+    </insert>  
+    
+    <update id="updateParseContent" parameterType="ParseContent">  
+		update parse_content set
+		`content` = #{ content},`gmt_modify` = #{ gmtModify},`task_tp_id` = #{ taskTpId},`task_inst_id` = #{ taskInstId}
+		where id = #{id}
+    </update>  
+    
+	<select id="getParseContentList" resultMap="parseContentMap"  parameterType="Map">
+      select * from parse_content 
+      <where>
+         <include refid="whereSql"/>
+      </where>
+    </select>
+    
+	<select id="getParseContentListPage" resultMap="parseContentMap"  parameterType="Map">
+      select * from parse_content 
+      <where>
+         <include refid="whereSql"/>
+      </where>
+        order by id desc 
+         limit #{startRow},#{pageSize} 
+    </select>
+    
+	<select id="getParseContentListPageCount" resultType="Integer"  parameterType="Map">
+      select count(*) from parse_content 
+      <where>
+         <include refid="whereSql"/>
+      </where>
+    </select>
+    
+     <update id="deleteParseContent" parameterType="Long">  
+        update  parse_content set del_state = 0  where id = #{id}
+     </update>  
+	 
+     <!-- user definition code start -->
+     <!-- user definition code end -->
+</mapper> 
+
+

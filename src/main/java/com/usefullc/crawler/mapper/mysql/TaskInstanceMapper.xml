@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="TaskInstanceMapper">  
+   
+	<resultMap type="TaskInstance" id="taskInstanceMap">
+		<result  column="id" property="id"/>
+		<result  column="task_tp_id" property="taskTpId"/>
+		<result  column="name" property="name"/>
+		<result  column="type" property="type"/>
+		<result  column="status" property="status"/>
+		<result  column="gmt_create" property="gmtCreate"/>
+		<result  column="gmt_modify" property="gmtModify"/>
+		<result  column="del_state" property="delState"/>
+	</resultMap>
+	
+	<sql id="whereSql">
+		del_state = 1
+		<if test="id != null and id != '' ">
+		 and  `id` = #{id}
+		</if> 
+		<if test="taskTpId != null and taskTpId != '' ">
+		 and  `task_tp_id` = #{taskTpId}
+		</if> 
+		<if test="name != null and name != '' ">
+		 and  `name` = #{name}
+		</if> 
+		<if test="type != null and type != '' ">
+		 and  `type` = #{type}
+		</if> 
+		<if test="status != null and status != '' ">
+		 and  `status` = #{status}
+		</if> 
+		<if test="gmtCreate != null and gmtCreate != '' ">
+		 and  `gmt_create` = #{gmtCreate}
+		</if> 
+		<if test="gmtModify != null and gmtModify != '' ">
+		 and  `gmt_modify` = #{gmtModify}
+		</if> 
+	</sql>
+	
+	<select id="getTaskInstance" resultMap="taskInstanceMap">
+		 select * from task_instance WHERE id = #{id}
+    </select>
+    
+    <insert id="insertTaskInstance" parameterType="TaskInstance" >  
+        <selectKey keyProperty="id" resultType="Long" order="AFTER" >
+	      select LAST_INSERT_ID()
+	   </selectKey>
+		insert into task_instance   
+		(
+		`task_tp_id`,`name`,`type`,`status`,`gmt_create`,`gmt_modify`,`del_state`
+		) 
+		values
+		(
+		#{ taskTpId},#{ name},#{ type},#{ status},now(6),now(6),1
+		)
+    </insert>  
+    
+    <update id="updateTaskInstance" parameterType="TaskInstance">  
+		update task_instance set
+		`task_tp_id` = #{ taskTpId},`name` = #{ name},`type` = #{ type},`status` = #{ status}	      
+		,`gmt_modify` = #{ gmtModify}
+		where id = #{id}
+    </update>  
+    
+	<select id="getTaskInstanceList" resultMap="taskInstanceMap"  parameterType="Map">
+      select * from task_instance 
+      <where>
+         <include refid="whereSql"/>
+      </where>
+    </select>
+    
+	<select id="getTaskInstanceListPage" resultMap="taskInstanceMap"  parameterType="Map">
+      select * from task_instance 
+      <where>
+         <include refid="whereSql"/>
+      </where>
+        order by id desc 
+         limit #{startRow},#{pageSize} 
+    </select>
+    
+	<select id="getTaskInstanceListPageCount" resultType="Integer"  parameterType="Map">
+      select count(*) from task_instance 
+      <where>
+         <include refid="whereSql"/>
+      </where>
+    </select>
+    
+     <update id="deleteTaskInstance" parameterType="Long">  
+        update  task_instance set del_state = 0  where id = #{id}
+     </update>  
+	 
+     <!-- user definition code start -->
+     <!-- user definition code end -->
+</mapper> 
+
+

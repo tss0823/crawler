@@ -1,0 +1,14 @@
+#set($layout = "/layout/frameLayout.vm")
+<div id="bgLeft">
+<div id="mainLeft">
+<div id="menuTop"></div>
+<div id="mainMenu">
+##<h2 id="secondMenu" class="secondMenuDown">用户管理</h2>	
+## <ul>
+##   <li id="leafMenu" class="select"><a href="">添加用户</a></li>
+##   <li id="leafMenu"><a href="">用户管理</a></li>
+## </ul>
+</div>
+</div>
+</div>
+	

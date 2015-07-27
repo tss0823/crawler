@@ -1,0 +1,11 @@
+<div id="page" class="page">
+<input type="hidden" name="pageNum" id="pageNum" value="$!page.pageNum" />
+<a href="javascript:goPage(1)">首页 |		</a>
+#if($!page.pageNum == 1)<a href="#">上一页	 |</a>#end
+#if($!page.pageNum > 1)<a href="javascript:prevPage()">上一页 | </a>#end
+#if($!page.pageCount == $!page.pageNum)<a href="#">下一页 |	</a>#end
+#if($!page.pageCount > $!page.pageNum)<a href="javascript:nextPage()">下一页		</a>#end
+<a href="javascript:goPage($!{page.pageCount})">尾页 |	</a>
+$!{page.pageNum}/$!{page.pageCount} |
+共$!{page.totalCount}条
+</div>

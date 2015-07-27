@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="TaskTpParamMapper">  
+   
+	<resultMap type="TaskTpParam" id="taskTpParamMap">
+		<result  column="key" property="key"/>
+		<result  column="value" property="value"/>
+		<result  column="id" property="id"/>
+		<result  column="gmt_create" property="gmtCreate"/>
+		<result  column="gmt_modify" property="gmtModify"/>
+		<result  column="del_state" property="delState"/>
+		<result  column="task_tp_id" property="taskTpId"/>
+	</resultMap>
+	
+	<sql id="whereSql">
+		del_state = 1
+		<if test="key != null and key != '' ">
+		 and  `key` = #{key}
+		</if> 
+		<if test="value != null and value != '' ">
+		 and  `value` = #{value}
+		</if> 
+		<if test="id != null and id != '' ">
+		 and  `id` = #{id}
+		</if> 
+		<if test="gmtCreate != null and gmtCreate != '' ">
+		 and  `gmt_create` = #{gmtCreate}
+		</if> 
+		<if test="gmtModify != null and gmtModify != '' ">
+		 and  `gmt_modify` = #{gmtModify}
+		</if> 
+		<if test="taskTpId != null and taskTpId != '' ">
+		 and  `task_tp_id` = #{taskTpId}
+		</if> 
+	</sql>
+	
+	<select id="getTaskTpParam" resultMap="taskTpParamMap">
+		 select * from task_tp_param WHERE id = #{id}
+    </select>
+    
+    <insert id="insertTaskTpParam" parameterType="TaskTpParam" >  
+        <selectKey keyProperty="id" resultType="Long" order="AFTER" >
+	      select LAST_INSERT_ID()
+	   </selectKey>
+		insert into task_tp_param   
+		(
+		`key`,`value`,`gmt_create`,`gmt_modify`,`del_state`,`task_tp_id`
+		) 
+		values
+		(
+		#{ key},#{ value},now(6),now(6),1,#{ taskTpId}
+		)
+    </insert>  
+    
+    <update id="updateTaskTpParam" parameterType="TaskTpParam">  
+		update task_tp_param set
+		`key` = #{ key},`value` = #{ value},`gmt_modify` = #{ gmtModify},`task_tp_id` = #{ taskTpId}
+		where id = #{id}
+    </update>  
+    
+	<select id="getTaskTpParamList" resultMap="taskTpParamMap"  parameterType="Map">
+      select * from task_tp_param 
+      <where>
+         <include refid="whereSql"/>
+      </where>
+    </select>
+    
+	<select id="getTaskTpParamListPage" resultMap="taskTpParamMap"  parameterType="Map">
+      select * from task_tp_param 
+      <where>
+         <include refid="whereSql"/>
+      </where>
+        order by id desc 
+         limit #{startRow},#{pageSize} 
+    </select>
+    
+	<select id="getTaskTpParamListPageCount" resultType="Integer"  parameterType="Map">
+      select count(*) from task_tp_param 
+      <where>
+         <include refid="whereSql"/>
+      </where>
+    </select>
+    
+     <update id="deleteTaskTpParam" parameterType="Long">  
+        update  task_tp_param set del_state = 0  where id = #{id}
+     </update>  
+	 
+     <!-- user definition code start -->
+     <!-- user definition code end -->
+</mapper> 
+
+

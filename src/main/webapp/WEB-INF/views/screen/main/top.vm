@@ -1,0 +1,15 @@
+#set($layout = "/layout/frameLayout.vm")
+<div id="topTitle">
+  <ul class="topMenu">
+    <li><a class="userInfo">$!{userInfo.username}已登录</a></li>
+    <li><a href="javascript:updatePwd()" class="updatePwd"></a></li>
+    <li><a href="javascript:void()" class="logout" id="logout"></a></li>
+  </ul>
+</div>
+<div id="topMain">
+<div id="topLogo"></div>
+<ul class="topMiddleMenu">
+   ##<li><div class="host"><span>首页</span></div></li>
+</ul>
+</div>
+<div id="topSwitch"></div>
