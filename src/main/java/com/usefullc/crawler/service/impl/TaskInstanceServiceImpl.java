@@ -35,7 +35,6 @@ public class TaskInstanceServiceImpl extends AbstractBaseService implements ITas
 		return taskInstanceDao.getTaskInstanceList(queryMap);
 	}
 	
-	@Override
 	public Pagination<TaskInstance> getTaskInstanceListPage(Map<String, Object> queryMap) {
 		return taskInstanceDao.getTaskInstanceListPage(queryMap);
 	}

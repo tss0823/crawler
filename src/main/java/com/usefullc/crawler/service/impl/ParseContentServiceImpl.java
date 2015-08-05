@@ -21,7 +21,7 @@ import com.usefullc.crawler.domain.ParseContent;
 import com.usefullc.crawler.service.IParseContentService;
 
 
-@Service
+@Service("parseContentService")
 public class ParseContentServiceImpl extends AbstractBaseService implements IParseContentService {
 	
 	@Autowired
@@ -35,7 +35,6 @@ public class ParseContentServiceImpl extends AbstractBaseService implements IPar
 		return parseContentDao.getParseContentList(queryMap);
 	}
 	
-	@Override
 	public Pagination<ParseContent> getParseContentListPage(Map<String, Object> queryMap) {
 		return parseContentDao.getParseContentListPage(queryMap);
 	}

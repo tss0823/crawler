@@ -35,7 +35,6 @@ public class ProxyServiceImpl extends AbstractBaseService implements IProxyServi
 		return proxyDao.getProxyList(queryMap);
 	}
 	
-	@Override
 	public Pagination<Proxy> getProxyListPage(Map<String, Object> queryMap) {
 		return proxyDao.getProxyListPage(queryMap);
 	}

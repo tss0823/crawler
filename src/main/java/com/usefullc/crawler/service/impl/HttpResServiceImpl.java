@@ -21,7 +21,7 @@ import com.usefullc.crawler.domain.HttpRes;
 import com.usefullc.crawler.service.IHttpResService;
 
 
-@Service
+@Service("httpResService")
 public class HttpResServiceImpl extends AbstractBaseService implements IHttpResService {
 	
 	@Autowired
@@ -35,7 +35,6 @@ public class HttpResServiceImpl extends AbstractBaseService implements IHttpResS
 		return httpResDao.getHttpResList(queryMap);
 	}
 	
-	@Override
 	public Pagination<HttpRes> getHttpResListPage(Map<String, Object> queryMap) {
 		return httpResDao.getHttpResListPage(queryMap);
 	}

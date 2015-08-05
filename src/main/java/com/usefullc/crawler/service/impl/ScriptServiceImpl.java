@@ -35,7 +35,6 @@ public class ScriptServiceImpl extends AbstractBaseService implements IScriptSer
 		return scriptDao.getScriptList(queryMap);
 	}
 	
-	@Override
 	public Pagination<Script> getScriptListPage(Map<String, Object> queryMap) {
 		return scriptDao.getScriptListPage(queryMap);
 	}

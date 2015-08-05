@@ -35,7 +35,6 @@ public class TaskTpParamServiceImpl extends AbstractBaseService implements ITask
 		return taskTpParamDao.getTaskTpParamList(queryMap);
 	}
 	
-	@Override
 	public Pagination<TaskTpParam> getTaskTpParamListPage(Map<String, Object> queryMap) {
 		return taskTpParamDao.getTaskTpParamListPage(queryMap);
 	}

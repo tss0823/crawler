@@ -5,6 +5,7 @@ package com.usefullc.crawler.web;
 
 import java.util.Map;
 
+import com.usefullc.crawler.common.dto.TaskTplDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,8 +89,8 @@ public class TaskTemplateController extends BaseController {
      */
     @RequestMapping(value = "/save.htm")
 	@ResponseBody
-    public String save(TaskTemplate domain){
-    	taskTemplateService.insertTaskTemplate(domain);
+    public String save(TaskTplDto dto){
+    	taskTemplateService.save(dto);
     	return SUCCESS;
     }
     

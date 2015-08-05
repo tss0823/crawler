@@ -8,6 +8,8 @@
 package com.usefullc.crawler.service;
 import java.util.List;
 import java.util.Map;
+
+import com.usefullc.crawler.common.dto.TaskTplDto;
 import com.usefullc.crawler.domain.TaskTemplate;
 import com.usefullc.platform.common.web.Pagination;
 
@@ -57,6 +59,19 @@ public interface ITaskTemplateService {
 	 * @param id
 	 */
 	void deleteTaskTemplate(Long id);
+
+	/**
+	 * 保存模板，模板参数，脚本
+	 * @param dto
+	 */
+	void save(TaskTplDto dto);
+
+	/**
+	 * 根据模板id获取DTO
+	 * @param taskTpId
+	 * @return
+	 */
+	TaskTplDto getDtoById(Long taskTpId);
     
 
 }
