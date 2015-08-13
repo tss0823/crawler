@@ -50,4 +50,8 @@ public class ScriptDaoImpl extends AbstractBaseDao implements IScriptDao {
 		sqlSession.delete("ScriptMapper.deleteScript", id);
 	}
 
+	public void deleteScriptByTaskTpId(Long taskTpId) {
+		sqlSession.delete("ScriptMapper.deleteScriptByTaskTpId", taskTpId);
+	}
+
 }

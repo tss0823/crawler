@@ -1,0 +1,105 @@
+<div class="box box-info">
+    <!-- form start -->
+    <form class="form-horizontal">
+        <div class="box-body">
+            <div class="box-header with-border">
+                <h3 class="box-title">模板信息</h3>
+            </div><!-- /.box-header -->
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">名称</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="名称">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">类型</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="type" id="type" placeholder="类型">
+                </div>
+            </div>
+            <div class="box-header">
+                <h3 class="box-title">模板参数</h3>
+                <input type="button" class="btn btn-default" id="btnItemAdd" value="添加" />
+            </div><!-- /.box-header -->
+            <div class="form-group" id="divTplParam">
+                <div>
+                    <label for="key" class="control-label">参数：</label>
+                    <div class="col-xs-3">
+                        <input type="text" class="form-control" name="keys" id="keys" placeholder="名称">
+                    </div>
+                    <label for="value" class="control-label">值：</label>
+                    <div class="col-xs-3">
+                        <input type="text" class="form-control" name="values" id="values" placeholder="类型">
+                    </div>
+                    <input type="button" class="btn btn-danger" id="btnItemDel" value="删除" />
+                </div>
+            </div>
+            <div class="box-header">
+                <h3 class="box-title">模板脚本</h3>
+            </div><!-- /.box-header -->
+            <div class="box-body pad">
+                <textarea id="scriptContent" name="scriptContent" rows="10" cols="80"></textarea>
+            </div>
+        </div><!-- /.box -->
+        </div><!-- /.box-body -->
+        <div class="box-footer">
+            <button type="button" id="btnSave"  class="btn btn-info pull-right">保存</button>
+        </div><!-- /.box-footer -->
+    </form>
+</div><!-- /.box -->
+<!-- CK Editor -->
+<script src="https://cdn.ckeditor.com/4.4.3/standard/ckeditor.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+
+
+
+        //add
+        $("#btnItemAdd").click(function(){
+            var html = $("#divTplParam").find("div:first").clone();
+            $("#divTplParam").append(html);
+        });
+
+        //del
+        $(document).on('click', '#btnItemDel', function() {
+            if($("#divTplParam").children("div").length == 1){
+                alert("必须保留一行");
+                return ;
+            }
+            $(this).parent("div").remove();
+        });
+
+        //save
+        $("#btnSave").click(function(){
+            var params = getFormParams();
+            $.post("save.htm",params,function(data){
+                alert("保存成功");
+            });
+        });
+    });
+
+    //获得提交表单数据
+    function getFormParams(){
+        var paramsArray = $("form").serializeArray();
+        var params = {};
+        while(paramsArray.length > 0){
+            var data = paramsArray.pop();
+            var oldValue = params[data.name]
+            if(typeof(oldValue) != "undefined"){  //存在数据
+                if(typeof(oldValue) == "object"){
+                    oldValue.push(data.value); //add
+                }else{
+                    var arr = new Array();
+                    arr.push(oldValue);
+                    arr.push(data.value);
+                    oldValue = arr;
+                }
+                params[data.name] = oldValue;
+            }else{
+                params[data.name] = data.value;
+            }
+
+        }
+        return params;
+    }
+</script>

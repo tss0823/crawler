@@ -52,8 +52,10 @@ public class ScriptServiceImpl extends AbstractBaseService implements IScriptSer
 		scriptDao.deleteScript(id);
 	}
 
+	@Override
+	public void deleteScriptByTaskTpId(Long taskTpId) {
+		scriptDao.deleteScriptByTaskTpId(taskTpId);
+	}
 
 
-
-	
 }

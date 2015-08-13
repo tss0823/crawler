@@ -57,6 +57,12 @@ public interface ITaskTpParamService {
 	 * @param id
 	 */
 	void deleteTaskTpParam(Long id);
+
+	/**
+	 * 根据任务模板删除
+	 * @param taskTpId
+	 */
+	void deleteByTaskTpId(Long taskTpId);
     
 
 }

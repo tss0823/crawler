@@ -69,14 +69,42 @@ public class TaskTemplateServiceImpl extends AbstractBaseService implements ITas
 
 	public void save(TaskTplDto dto){
 		TaskTemplate taskTemplate = dto.getTaskTemplate();
+		//save template
+		this.insertTaskTemplate(taskTemplate);
+		Long tpId = taskTemplate.getId();
 		List<TaskTpParam> taskTpParamList = dto.getTaskTpParamList();
-		//创建任务实例
-		TaskInstance taskInstance = new TaskInstance();
-		taskInstance.setTaskTpId(taskTemplate.getId());
-		taskInstance.setName(taskTemplate.getName());
-		taskInstance.setType("");
-//        taskInstance.setStatus();
-//		taskInstanceService.insertTaskInstance(taskInstance);
+
+		//save param
+		for(TaskTpParam taskTpParam : taskTpParamList){
+			taskTpParam.setTaskTpId(tpId);
+			taskTpParamService.insertTaskTpParam(taskTpParam);
+		}
+		//save script
+		Script script = dto.getScript();
+		script.setTaskTpId(tpId);
+		scriptService.insertScript(script);
+	}
+
+	public void update(TaskTplDto dto){
+		TaskTemplate taskTemplate = dto.getTaskTemplate();
+		//save template
+		this.updateTaskTemplate(taskTemplate);
+		Long tpId = taskTemplate.getId();
+		List<TaskTpParam> taskTpParamList = dto.getTaskTpParamList();
+
+		//del param first
+		taskTpParamService.deleteByTaskTpId(tpId);
+		//save param
+		for(TaskTpParam taskTpParam : taskTpParamList){
+			taskTpParam.setTaskTpId(tpId);
+			taskTpParamService.insertTaskTpParam(taskTpParam);
+		}
+		//del script first
+		scriptService.deleteScriptByTaskTpId(tpId);
+		//save script
+		Script script = dto.getScript();
+		script.setTaskTpId(tpId);
+		scriptService.insertScript(script);
 	}
 
 	public TaskTplDto getDtoById(Long taskTpId){

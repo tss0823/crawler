@@ -67,6 +67,12 @@ public interface ITaskTemplateService {
 	void save(TaskTplDto dto);
 
 	/**
+	 * 修改模板，模板参数，脚本
+	 * @param dto
+	 */
+	void update(TaskTplDto dto);
+
+	/**
 	 * 根据模板id获取DTO
 	 * @param taskTpId
 	 * @return

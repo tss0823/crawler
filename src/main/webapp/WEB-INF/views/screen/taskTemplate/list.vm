@@ -1,0 +1,89 @@
+<style>
+    .c-modal .modal {
+        /*position: relative;*/
+        /*top: auto;*/
+        /*bottom: auto;*/
+        /*right: auto;*/
+        /*left: auto;*/
+        margin:30px auto;
+        display: block;
+        z-index: 1;
+        background: transparent!important;
+    }
+    .c-modal .modal-body {
+        overflow-y: auto;
+        height: 500px;
+    }
+
+</style>
+#set($title="模板管理")
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <button class="btn bg-navy margin" id="btnNew">新建</button>
+                <button class="btn bg-navy margin" id="btnNew">搜索</button>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>名称</th>
+                        <th>类型</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    #foreach($item in $!dataList)
+                    <tr>
+                        <td>$!item.name</td>
+                        <td>$!item.type</td>
+                        <td>$!dateTool.format($!item.gmtCreate)</td>
+                        <td>X</td>
+                    </tr>
+                    #end
+                    </tbody>
+                </table>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- /.col -->
+</div><!-- /.row -->
+
+<div id="myModal" class="c-modal">
+    <div class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">新建模板</h4>
+                </div>
+                <div class="modal-body">
+                    #parse("screen/taskTemplate/new.vm")
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div><!-- /.example-modal -->
+
+<!-- page script -->
+<script type="text/javascript">
+    $(function () {
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false
+        });
+
+        $("#btnNew").click(function(){
+            $(".c-modal").show();
+        });
+
+        $(".close").click(function(){
+            $(".c-modal").hide();
+        });
+    });
+</script>

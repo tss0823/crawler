@@ -87,9 +87,13 @@
      <update id="deleteTaskTpParam" parameterType="Long">  
         update  task_tp_param set del_state = 0  where id = #{id}
      </update>  
-	 
+
+
      <!-- user definition code start -->
-     <!-- user definition code end -->
+	<delete id="deleteTaskTpParamByTaskTpId" parameterType="Long">
+		delete from  task_tp_param   where task_tp_id = #{taskTpId}
+	</delete>
+	<!-- user definition code end -->
 </mapper> 
 
 

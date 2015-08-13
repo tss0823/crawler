@@ -50,4 +50,8 @@ public class TaskTpParamDaoImpl extends AbstractBaseDao implements ITaskTpParamD
 		sqlSession.delete("TaskTpParamMapper.deleteTaskTpParam", id);
 	}
 
+	public void deleteTaskTpParamByTaskTpId(Long taskTpId) {
+		sqlSession.delete("TaskTpParamMapper.deleteTaskTpParamByTaskTpId", taskTpId);
+	}
+
 }

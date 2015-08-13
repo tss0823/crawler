@@ -1,0 +1,36 @@
+<ul class="sidebar-menu">
+    <li class="header">MAIN NAVIGATION</li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-dashboard"></i> <span>模板样本</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="$!{appsPath}/res/index.html"><i class="fa fa-circle-o"></i>test1</a></li>
+            <li><a href="$!{appsPath}/res/index2.html"><i class="fa fa-circle-o"></i>test2</a></li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-files-o"></i>
+            <span>模板</span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="$!{appsPath}/taskTemplate/list.htm"><i class="fa fa-circle-o"></i>模板管理</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="../widgets.html">
+            <i class="fa fa-th"></i> <span>模板实例</span>
+        </a>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-pie-chart"></i>
+            <span>代理</span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="../charts/chartjs.html"><i class="fa fa-circle-o"></i>代理列表</a></li>
+            <li><a href="../charts/morris.html"><i class="fa fa-circle-o"></i>代理验证</a></li>
+        </ul>
+    </li>
+</ul>

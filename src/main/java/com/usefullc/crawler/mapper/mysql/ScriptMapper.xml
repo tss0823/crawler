@@ -85,6 +85,9 @@
      </update>  
 	 
      <!-- user definition code start -->
+	<delete id="deleteScriptyTaskTpId" parameterType="Long">
+		delete from  task_tp_param   where task_tp_id = #{taskTpId}
+	</delete>
      <!-- user definition code end -->
 </mapper> 
 

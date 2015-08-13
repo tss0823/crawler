@@ -60,6 +60,12 @@ public interface  ITaskTpParamDao {
 	 */
 	void deleteTaskTpParam(Long id);
 
+	/**
+	 * 删除任务模板参数
+	 * @param taskTpId
+	 */
+	void deleteTaskTpParamByTaskTpId(Long taskTpId);
+
 
 }
 

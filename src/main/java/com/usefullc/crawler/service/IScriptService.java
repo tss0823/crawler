@@ -57,6 +57,12 @@ public interface IScriptService {
 	 * @param id
 	 */
 	void deleteScript(Long id);
+
+	/**
+	 * 删除脚本
+	 * @param taskTpId
+	 */
+	void deleteScriptByTaskTpId(Long taskTpId);
     
 
 }

@@ -52,8 +52,9 @@ public class TaskTpParamServiceImpl extends AbstractBaseService implements ITask
 		taskTpParamDao.deleteTaskTpParam(id);
 	}
 
+	public void deleteByTaskTpId(Long taskTpId) {
+		taskTpParamDao.deleteTaskTpParamByTaskTpId(taskTpId);
+	}
 
 
-
-	
 }

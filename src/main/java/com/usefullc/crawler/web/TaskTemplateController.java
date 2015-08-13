@@ -3,9 +3,11 @@
  */
 package com.usefullc.crawler.web;
 
-import java.util.Map;
+import java.util.*;
 
 import com.usefullc.crawler.common.dto.TaskTplDto;
+import com.usefullc.crawler.domain.Script;
+import com.usefullc.crawler.domain.TaskTpParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,8 +45,8 @@ public class TaskTemplateController extends BaseController {
     @RequestMapping(value = "/list.htm")
     public String list(TaskTemplateQuery query, Model model) {
         Map<String,Object> queryMap = BeanUtils.beanToQueryMap(query);
-        Pagination<TaskTemplate> page = taskTemplateService.getTaskTemplateListPage(queryMap);
-        model.addAttribute("page", page);
+        List<TaskTemplate> dataList = taskTemplateService.getTaskTemplateList(queryMap);
+        model.addAttribute("dataList", dataList);
         return "taskTemplate/list";
     }
     
@@ -84,27 +86,48 @@ public class TaskTemplateController extends BaseController {
     
     /**
      * 任务模板保存
-     * @param model
+     * @param dto
      * @return
      */
     @RequestMapping(value = "/save.htm")
 	@ResponseBody
-    public String save(TaskTplDto dto){
+    public String save(@RequestParam String name,@RequestParam String type,
+                       @RequestParam("keys[]") String [] keys,@RequestParam("values[]") String [] values,
+                       @RequestParam String scriptContent){
+        TaskTplDto dto = new TaskTplDto();
+        TaskTemplate taskTemplate = new TaskTemplate();
+        taskTemplate.setName(name);
+        taskTemplate.setType(type);
+        dto.setTaskTemplate(taskTemplate);
+
+        List<TaskTpParam> taskTpParamList = new java.util.ArrayList<TaskTpParam>(keys.length);
+        for(int i = 0; i < keys.length; i++){
+            String key = keys[i];
+            String value  = values[i];
+            TaskTpParam taskTpParam = new TaskTpParam();
+            taskTpParam.setKey(key);
+            taskTpParam.setValue(value);
+            taskTpParamList.add(taskTpParam);
+        }
+        dto.setTaskTpParamList(taskTpParamList);
+
+        Script script = new Script();
+        script.setContent(scriptContent);
+        dto.setScript(script);
+
     	taskTemplateService.save(dto);
     	return SUCCESS;
     }
     
     /**
      * 任务模板修改
-     * @param model
+     * @param dto
      * @return
      */
     @RequestMapping(value = "/update.htm")
 	@ResponseBody
-    public String update(TaskTemplate domain){
-    	TaskTemplate oldDomain = taskTemplateService.getTaskTemplate(domain.getId());
-    	BeanUtils.beanCopy(domain, oldDomain);
-    	taskTemplateService.updateTaskTemplate(oldDomain);
+    public String update(TaskTplDto dto){
+    	taskTemplateService.update(dto);
     	return SUCCESS;
     }
     
