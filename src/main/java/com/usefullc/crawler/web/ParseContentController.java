@@ -3,7 +3,7 @@
  */
 package com.usefullc.crawler.web;
 
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,8 +42,8 @@ public class ParseContentController extends BaseController {
     @RequestMapping(value = "/list.htm")
     public String list(ParseContentQuery query, Model model) {
         Map<String,Object> queryMap = BeanUtils.beanToQueryMap(query);
-        Pagination<ParseContent> page = parseContentService.getParseContentListPage(queryMap);
-        model.addAttribute("page", page);
+        List<ParseContent> dataList = parseContentService.getParseContentList(queryMap);
+        model.addAttribute("dataList", dataList);
         return "parseContent/list";
     }
     

@@ -3,8 +3,14 @@
  */
 package com.usefullc.crawler.web;
 
-import java.util.Map;
+import java.util.*;
 
+import com.usefullc.crawler.domain.ParseContent;
+import com.usefullc.crawler.domain.TaskTemplate;
+import com.usefullc.crawler.domain.TaskTpParam;
+import com.usefullc.crawler.service.IParseContentService;
+import com.usefullc.crawler.service.ITaskTemplateService;
+import com.usefullc.crawler.web.query.TaskTemplateQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +37,12 @@ public class TaskInstanceController extends BaseController {
 
     @Autowired
     private ITaskInstanceService taskInstanceService;
+
+    @Autowired
+    private ITaskTemplateService taskTemplateService;
+
+    @Autowired
+    private IParseContentService parseContentService;
     
 
     /**
@@ -42,8 +54,12 @@ public class TaskInstanceController extends BaseController {
     @RequestMapping(value = "/list.htm")
     public String list(TaskInstanceQuery query, Model model) {
         Map<String,Object> queryMap = BeanUtils.beanToQueryMap(query);
-        Pagination<TaskInstance> page = taskInstanceService.getTaskInstanceListPage(queryMap);
-        model.addAttribute("page", page);
+        List<TaskInstance> dataList = taskInstanceService.getTaskInstanceList(queryMap);
+        List<TaskTemplate> taskTpList = taskTemplateService.getTaskTemplateList(new HashMap<String,Object>());
+        List<ParseContent> parseContentList  = parseContentService.getParseContentList(new HashMap<String,Object>());
+        model.addAttribute("dataList", dataList);
+        model.addAttribute("taskTpList",taskTpList);
+        model.addAttribute("parseContentList",parseContentList);
         return "taskInstance/list";
     }
     

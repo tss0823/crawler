@@ -8,9 +8,9 @@
 package com.usefullc.crawler.service.impl;
 
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,8 +52,26 @@ public class ProxyServiceImpl extends AbstractBaseService implements IProxyServi
 		proxyDao.deleteProxy(id);
 	}
 
+	@Override
+	public void uploadFile(byte[] fileBytes) {
+		String content = new String(fileBytes);
+		importText(content);
+	}
+
+	@Override
+	public void importText(String text) {
+		StringTokenizer st = new StringTokenizer(text,",");
+		while(st.hasMoreElements()){
+			String str = st.nextElement().toString().trim();
+			str = str.substring(1,str.length()-1);
+			String ip = str.split(":")[0];
+			String port = str.split(":")[1];
+			Proxy proxy = new Proxy();
+			proxy.setIp(ip);
+			proxy.setPort(Integer.valueOf(port));
+			proxyDao.insertProxy(proxy);
+		}
+	}
 
 
-
-	
 }

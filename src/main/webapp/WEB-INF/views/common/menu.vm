@@ -19,7 +19,7 @@
         </ul>
     </li>
     <li>
-        <a href="../widgets.html">
+        <a href="$!{appsPath}/taskInstance/list.htm">
             <i class="fa fa-th"></i> <span>模板实例</span>
         </a>
     </li>
@@ -29,7 +29,7 @@
             <span>代理</span>
         </a>
         <ul class="treeview-menu">
-            <li><a href="../charts/chartjs.html"><i class="fa fa-circle-o"></i>代理列表</a></li>
+            <li><a href="$!{appsPath}/proxy/list.htm"><i class="fa fa-circle-o"></i>代理列表</a></li>
             <li><a href="../charts/morris.html"><i class="fa fa-circle-o"></i>代理验证</a></li>
         </ul>
     </li>

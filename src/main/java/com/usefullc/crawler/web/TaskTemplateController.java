@@ -86,13 +86,12 @@ public class TaskTemplateController extends BaseController {
     
     /**
      * 任务模板保存
-     * @param dto
      * @return
      */
     @RequestMapping(value = "/save.htm")
 	@ResponseBody
     public String save(@RequestParam String name,@RequestParam String type,
-                       @RequestParam("keys[]") String [] keys,@RequestParam("values[]") String [] values,
+                       @RequestParam List<String>  keys,@RequestParam List<String> values,
                        @RequestParam String scriptContent){
         TaskTplDto dto = new TaskTplDto();
         TaskTemplate taskTemplate = new TaskTemplate();
@@ -100,10 +99,10 @@ public class TaskTemplateController extends BaseController {
         taskTemplate.setType(type);
         dto.setTaskTemplate(taskTemplate);
 
-        List<TaskTpParam> taskTpParamList = new java.util.ArrayList<TaskTpParam>(keys.length);
-        for(int i = 0; i < keys.length; i++){
-            String key = keys[i];
-            String value  = values[i];
+        List<TaskTpParam> taskTpParamList = new java.util.ArrayList<TaskTpParam>(keys.size());
+        for(int i = 0; i < keys.size(); i++){
+            String key = keys.get(i);
+            String value  = values.get(i);
             TaskTpParam taskTpParam = new TaskTpParam();
             taskTpParam.setKey(key);
             taskTpParam.setValue(value);
@@ -126,7 +125,30 @@ public class TaskTemplateController extends BaseController {
      */
     @RequestMapping(value = "/update.htm")
 	@ResponseBody
-    public String update(TaskTplDto dto){
+    public String update(@RequestParam Long id,@RequestParam String name,@RequestParam String type,
+                         @RequestParam List<String>  keys,@RequestParam List<String> values,
+                         @RequestParam String scriptContent){
+        TaskTplDto dto = new TaskTplDto();
+        TaskTemplate taskTemplate = new TaskTemplate();
+        taskTemplate.setId(id);
+        taskTemplate.setName(name);
+        taskTemplate.setType(type);
+        dto.setTaskTemplate(taskTemplate);
+
+        List<TaskTpParam> taskTpParamList = new java.util.ArrayList<TaskTpParam>(keys.size());
+        for(int i = 0; i < keys.size(); i++){
+            String key = keys.get(i);
+            String value  = values.get(i);
+            TaskTpParam taskTpParam = new TaskTpParam();
+            taskTpParam.setKey(key);
+            taskTpParam.setValue(value);
+            taskTpParamList.add(taskTpParam);
+        }
+        dto.setTaskTpParamList(taskTpParamList);
+
+        Script script = new Script();
+        script.setContent(scriptContent);
+        dto.setScript(script);
     	taskTemplateService.update(dto);
     	return SUCCESS;
     }

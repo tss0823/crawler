@@ -1,0 +1,15 @@
+.c-modal .modal {
+    /*position: relative;*/
+    /*top: auto;*/
+    /*bottom: auto;*/
+    /*right: auto;*/
+    /*left: auto;*/
+    display: none;
+    margin:30px auto;
+    z-index: 1;
+    background: transparent!important;
+}
+.c-modal .modal-body {
+    overflow-y: auto;
+    height: 500px;
+}

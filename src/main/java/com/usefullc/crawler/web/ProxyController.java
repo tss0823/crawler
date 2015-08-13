@@ -3,7 +3,8 @@
  */
 package com.usefullc.crawler.web;
 
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import com.usefullc.platform.common.utils.BeanUtils;
 import com.usefullc.crawler.web.query.ProxyQuery;
 import com.usefullc.crawler.domain.Proxy;
 import com.usefullc.crawler.service.IProxyService;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 代理 Controller
@@ -42,8 +44,8 @@ public class ProxyController extends BaseController {
     @RequestMapping(value = "/list.htm")
     public String list(ProxyQuery query, Model model) {
         Map<String,Object> queryMap = BeanUtils.beanToQueryMap(query);
-        Pagination<Proxy> page = proxyService.getProxyListPage(queryMap);
-        model.addAttribute("page", page);
+        List<Proxy> dataList = proxyService.getProxyList(queryMap);
+        model.addAttribute("dataList", dataList);
         return "proxy/list";
     }
     
@@ -82,6 +84,36 @@ public class ProxyController extends BaseController {
     }
     
     /**
+     * 代理文件导入
+     * @param file
+     * @return
+     */
+    @RequestMapping(value = "/uploadFile.htm")
+	@ResponseBody
+    public String uploadFile(@RequestParam  MultipartFile file){
+        try {
+            proxyService.uploadFile(file.getBytes());
+        } catch (IOException e) {
+            log.error("upload file failed",e);
+            return FAILED;
+        }
+        return SUCCESS;
+    }
+
+    /**
+     * 代理文本导入
+     * @param content
+     * @return
+     */
+    @RequestMapping(value = "/importText.htm")
+	@ResponseBody
+    public String importText(@RequestParam String content){
+        proxyService.importText(content);
+        return SUCCESS;
+    }
+
+
+    /**
      * 代理保存
      * @param model
      * @return
@@ -92,7 +124,7 @@ public class ProxyController extends BaseController {
     	proxyService.insertProxy(domain);
     	return SUCCESS;
     }
-    
+
     /**
      * 代理修改
      * @param model

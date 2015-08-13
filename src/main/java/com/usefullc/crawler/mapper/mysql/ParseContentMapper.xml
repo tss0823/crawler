@@ -6,6 +6,15 @@
 <mapper namespace="ParseContentMapper">  
    
 	<resultMap type="ParseContent" id="parseContentMap">
+		<result  column="id" property="id"/>
+		<result  column="gmt_create" property="gmtCreate"/>
+		<result  column="gmt_modify" property="gmtModify"/>
+		<result  column="del_state" property="delState"/>
+		<result  column="task_tp_id" property="taskTpId"/>
+		<result  column="task_inst_id" property="taskInstId"/>
+	</resultMap>
+
+	<resultMap type="ParseContent" id="parseContentDetailMap">
 		<result  column="content" property="content"/>
 		<result  column="id" property="id"/>
 		<result  column="gmt_create" property="gmtCreate"/>
@@ -14,7 +23,7 @@
 		<result  column="task_tp_id" property="taskTpId"/>
 		<result  column="task_inst_id" property="taskInstId"/>
 	</resultMap>
-	
+
 	<sql id="whereSql">
 		del_state = 1
 		<if test="content != null and content != '' ">
@@ -37,7 +46,7 @@
 		</if> 
 	</sql>
 	
-	<select id="getParseContent" resultMap="parseContentMap">
+	<select id="getParseContent" resultMap="parseContentDetailMap">
 		 select * from parse_content WHERE id = #{id}
     </select>
     

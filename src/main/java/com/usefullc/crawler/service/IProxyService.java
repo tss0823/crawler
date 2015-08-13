@@ -57,7 +57,18 @@ public interface IProxyService {
 	 * @param id
 	 */
 	void deleteProxy(Long id);
-    
+
+	/**
+	 * 上传文件，导入代理
+	 * @param fileBytes
+	 */
+	void uploadFile(byte [] fileBytes);
+	/**
+	 * 导入文本，导入代理
+	 * @param text
+	 */
+	void importText(String text);
+
 
 }
 

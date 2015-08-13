@@ -114,7 +114,7 @@ public class TaskExecuteServiceImpl implements ITaskExecuteService,ApplicationCo
         TaskTplDto dto = taskTemplateService.getDtoById(taskTpId);
         TaskTemplate taskTemplate = dto.getTaskTemplate();
         List<TaskTpParam> taskTpParamList = dto.getTaskTpParamList();
-        //获取参数
+        //获取模板参数
         Map<String,Object> paramMap = new HashMap<String, Object>();
 //        Properties properties = new Properties();
         if(CollectionUtils.isNotEmpty(taskTpParamList)){
@@ -157,7 +157,7 @@ public class TaskExecuteServiceImpl implements ITaskExecuteService,ApplicationCo
         Integer corePoolSize = Integer.valueOf(paramMap.get("corePoolSize").toString());
         Integer maximumPoolSize = Integer.valueOf(paramMap.get("maximumPoolSize").toString());
 
-        if(CollectionUtils.isEmpty(reqParamList)){
+        if(CollectionUtils.isEmpty(reqParamList)){  //默认解析出来的url list 集合
             List<String> urlList = JsonUtil.toObj(parseContent.getContent(),List.class);
             for(int i = 0; i < urlList.size(); i++){
                 String url = urlList.get(i);

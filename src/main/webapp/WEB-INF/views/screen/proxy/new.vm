@@ -1,0 +1,75 @@
+<div class="box box-info">
+    <!-- form start -->
+    <form class="form-horizontal">
+        <div class="box-body">
+            <div class="box-header with-border">
+                <h3 class="box-title">新建代理</h3>
+            </div><!-- /.box-header -->
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">文本</label>
+                <div class="col-sm-8">
+                    <textarea id="content" name="content" style="width:450px;height: 200px" placeholder="请输入文本"></textarea>
+                    <button type="button" id="btnImport"  class="btn btn-info pull-right">导入</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">文件</label>
+                <div class="col-sm-10">
+                    <input type="file" class="form-control" name="file" id="file">
+                    <button type="button" id="btnUpload"  class="btn btn-info pull-right">导入</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="parseContentId" class="col-sm-2 control-label">最优IP</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="url" id="url" placeholder="请输入URL">
+                    <button type="button" id="btnCheck"  class="btn btn-info pull-right">检测</button>
+                </div>
+            </div>
+        </div><!-- /.box-body -->
+    </form>
+</div><!-- /.box -->
+<!-- CK Editor -->
+<script src="$!{basePath}/res/common/jquery.ajaxfileupload.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+
+        //save
+        $("#btnUpload").click(function() {
+            $.ajaxFileUpload
+            (
+                    {
+                        url: 'uploadFile.htm',
+                        secureuri: false,
+                        fileElementId: 'file',
+                        dataType: 'json',
+                        data: {},
+                        success: function (data, status) {
+                            alert(JSON.stringify(data));
+                        },
+                        error: function (data, status, e) {
+                            alert(e);
+                        }
+                    }
+            )
+        });
+
+        //save
+        $("#btnImport").click(function(){
+            $.post(basePath+"/proxy/importText.htm",{content:$("#content").val()},function(data){
+                alert(JSON.stringify(data));
+            });
+        });
+
+        //save
+        $("#btnCheck").click(function(){
+            var params = getFormParams();
+            $.post(basePath+"/taskExecute/star2tMulti.htm",params,function(data){
+                alert(JSON.stringify(data));
+            });
+        });
+
+    });
+
+
+</script>
