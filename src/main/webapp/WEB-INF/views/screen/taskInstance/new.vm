@@ -19,6 +19,9 @@
                 <label for="parseContentId" class="col-sm-2 control-label">解析内容</label>
                 <div class="col-sm-10">
                     <select class="form-control select2" id="parseContentId" name="parseContentId">
+                        #foreach($item in $!parseContentList)
+                            <option value="$!item.id">$!item.id</option>
+                        #end
                     </select>
                 </div>
             </div>

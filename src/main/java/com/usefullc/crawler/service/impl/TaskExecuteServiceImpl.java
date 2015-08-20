@@ -1,8 +1,10 @@
 package com.usefullc.crawler.service.impl;
 
+import com.usefullc.crawler.common.dto.ProxyDto;
 import com.usefullc.crawler.common.dto.TaskExecuteDto;
 import com.usefullc.crawler.common.dto.TaskTplDto;
 import com.usefullc.crawler.common.http.HttpHelper;
+import com.usefullc.crawler.common.http.ReqParam;
 import com.usefullc.crawler.common.script.ScriptHelper;
 import com.usefullc.crawler.common.script.ScriptResult;
 import com.usefullc.crawler.common.task.CThread;
@@ -10,9 +12,11 @@ import com.usefullc.crawler.common.task.ITaskBizExecute;
 import com.usefullc.crawler.common.task.TaskExecuteHelper;
 import com.usefullc.crawler.domain.*;
 import com.usefullc.crawler.service.*;
+import com.usefullc.crawler.service.abst.AbstTaskBizExecute;
 import com.usefullc.platform.common.utils.JsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.jsoup.Connection;
+import org.jsoup.helper.ProxyInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -23,9 +27,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * Created by shengshan.tang on 7/29/2015 at 11:01 AM
@@ -110,7 +113,7 @@ public class TaskExecuteServiceImpl implements ITaskExecuteService,ApplicationCo
 
     }
     @Transactional
-    public TaskExecuteDto startMulti(Long taskTpId,Long parseContentId){
+    public TaskExecuteDto startMulti(Long taskTpId,Long parseContentId,List<Proxy> proxyList){
         TaskTplDto dto = taskTemplateService.getDtoById(taskTpId);
         TaskTemplate taskTemplate = dto.getTaskTemplate();
         List<TaskTpParam> taskTpParamList = dto.getTaskTpParamList();
@@ -149,6 +152,7 @@ public class TaskExecuteServiceImpl implements ITaskExecuteService,ApplicationCo
         initMap.put("parseContent",parseContent.getContent());
         initMap.put("taskTpId",taskTpId);
         initMap.put("taskInstId",taskInstance.getId());
+        initMap.put("proxyList",proxyList);
         taskBizExecute.init(initMap);
         List<Map<String,Object>> reqParamList = taskBizExecute.getBeforeReqParamList();
 
@@ -167,7 +171,7 @@ public class TaskExecuteServiceImpl implements ITaskExecuteService,ApplicationCo
                 myThread.setParamMap(taskParamMap);
                 taskList.add(myThread);
             }
-        }else{    //脚本处理参数
+        }else{    //脚本处理参数,获取上一次解析的内容
             for(int i = 0; i < reqParamList.size(); i++){
                 Map<String,Object> taskParamMap = reqParamList.get(i);
                 CThread myThread = new CThread(i);
@@ -186,6 +190,71 @@ public class TaskExecuteServiceImpl implements ITaskExecuteService,ApplicationCo
         taskExecuteDto.setScriptResult(scriptResult);
         return taskExecuteDto;
 
+    }
+
+    public List<ProxyDto> checkHighQualityProxy(final String url, List<Proxy> proxyList) {
+        int size = proxyList.size();
+        log.info("proxy size="+size);
+        List<CThread> taskList = new java.util.ArrayList<CThread>(size);
+        for(int i = 0; i < proxyList.size(); i++){
+            Proxy proxy = proxyList.get(i);
+            CThread myThread = new CThread(i);
+            Map<String,Object> taskParamMap = new HashMap<String, Object>();
+            taskParamMap.put("proxy",proxy);
+            myThread.setParamMap(taskParamMap);
+            taskList.add(myThread);
+        }
+        final List<ProxyDto> proxyDtoList = new CopyOnWriteArrayList<ProxyDto>();
+
+        TaskExecuteHelper.execute(3, 3, taskList, new ITaskBizExecute() {
+            public void init(Map<String, Object> initMap) {
+
+            }
+
+            public void execute(CThread cThread) {
+                Map<String,Object> taskParamMap = cThread.getParamMap();
+                Proxy proxy = (Proxy) taskParamMap.get("proxy");
+//                System.setProperty("proxySet", "true");
+//                System.setProperty("http.proxyHost", proxy.getIp());
+//                System.setProperty("http.proxyPort", String.valueOf(proxy.getPort()));
+                ReqParam reqParam = new ReqParam();
+                reqParam.setProxyInfo(new ProxyInfo(proxy.getIp(),proxy.getPort()));
+                Connection.Response response = HttpHelper.req(url,reqParam);
+                if(response.statusCode() == 200){
+                    long time = System.currentTimeMillis() - cThread.getStartTime();
+                    ProxyDto proxyDto = new ProxyDto();
+                    proxyDto.setIp(proxy.getIp());
+                    proxyDto.setPort(proxy.getPort());
+                    proxyDto.setTime(time);
+                    proxyDtoList.add(proxyDto);
+
+                }
+            }
+
+            public void afterExecute(CThread cThread) {
+            }
+
+            public void terminated() {
+                //排序
+                ProxyDto proxyDtoArr [] = proxyDtoList.toArray(new ProxyDto[]{});
+                Arrays.sort(proxyDtoArr,new Comparator<ProxyDto>(){
+                    public int compare(ProxyDto o1, ProxyDto o2) {
+                        return (int)(o1.getTime() - o2.getTime());
+                    }
+                });
+
+                //打印
+                log.info("after sort size="+proxyDtoArr.length);
+                for(ProxyDto proxyDto : proxyDtoArr){
+                    log.info(proxyDto.getIp()+":"+proxyDto.getPort()+" "+proxyDto.getTime());
+                }
+            }
+
+            public List<Map<String, Object>> getBeforeReqParamList() {
+                return null;
+            }
+        });
+        return proxyDtoList;
     }
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

@@ -29,7 +29,7 @@ public class CThread implements  Runnable {
 
     public void run() {
         startTime = System.currentTimeMillis();
-        log.info(""+Thread.currentThread().getName()+"start,index="+index);
+        log.info(""+Thread.currentThread().getName()+" start,index="+index);
         this.taskBizExecute.execute(this);
 
     }

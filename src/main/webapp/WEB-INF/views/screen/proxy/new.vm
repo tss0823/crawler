@@ -23,6 +23,7 @@
                 <label for="parseContentId" class="col-sm-2 control-label">最优IP</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="url" id="url" placeholder="请输入URL">
+                    <textarea id="proxyContent" name="proxyContent" style="width:450px;height: 200px" placeholder="请输入文本"></textarea>
                     <button type="button" id="btnCheck"  class="btn btn-info pull-right">检测</button>
                 </div>
             </div>
@@ -63,8 +64,8 @@
 
         //save
         $("#btnCheck").click(function(){
-            var params = getFormParams();
-            $.post(basePath+"/taskExecute/star2tMulti.htm",params,function(data){
+            var params = {url:$("#url").val(),content:$("#proxyContent").val()};
+            $.post(basePath+"/taskExecute/checkHighQualityProxy.htm",params,function(data){
                 alert(JSON.stringify(data));
             });
         });
