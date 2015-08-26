@@ -1,5 +1,7 @@
 package com.usefullc.crawler.common.task;
 
+import org.apache.commons.lang.ClassUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +19,12 @@ public class CThread implements  Runnable {
 
     int    index;
 
+    boolean succcess = true;//是否成功
+
+    String errMsg;  //失败消息
+    String stackErrMsg;  //失败栈消息
+
+
     private ExecutorService ec;
 
     private Map<String,Object> paramMap;  //form outer
@@ -28,9 +36,16 @@ public class CThread implements  Runnable {
     }
 
     public void run() {
-        startTime = System.currentTimeMillis();
-        log.info(""+Thread.currentThread().getName()+" start,index="+index);
-        this.taskBizExecute.execute(this);
+        try{
+            startTime = System.currentTimeMillis();
+            log.info(""+Thread.currentThread().getName()+" start,index="+index);
+            this.taskBizExecute.execute(this);
+        }catch (Exception e){
+            this.succcess = false;
+            this.errMsg = ExceptionUtils.getMessage(e);
+            this.stackErrMsg = ExceptionUtils.getStackTrace(e);
+        }
+
 
     }
 
@@ -60,5 +75,17 @@ public class CThread implements  Runnable {
 
     public void setEc(ExecutorService ec) {
         this.ec = ec;
+    }
+
+    public boolean isSucccess() {
+        return succcess;
+    }
+
+    public String getErrMsg() {
+        return errMsg;
+    }
+
+    public String getStackErrMsg() {
+        return stackErrMsg;
     }
 }

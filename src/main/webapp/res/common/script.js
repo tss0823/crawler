@@ -21,8 +21,9 @@ $(function () {
 
 
 //获得提交表单数据
-function getFormParams(){
-    var paramsArray = $("form").serializeArray();
+function getFormParams(id){
+    var sel = id || "form";
+    var paramsArray = $(sel).serializeArray();
     var params = {};
     while(paramsArray.length > 0){
         var data = paramsArray.pop();

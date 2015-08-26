@@ -1,0 +1,51 @@
+<div class="box box-info">
+    <!-- form start -->
+    <form class="form-horizontal" id="chkForm">
+        <div class="box-body">
+            <div class="box-header with-border">
+                <h3 class="box-title">检测链接</h3>
+            </div><!-- /.box-header -->
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">url</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="url" name="url" placeholder="请输入url"/>
+                </div>
+                <label for="name" class="col-sm-2 control-label">线程数</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="corePoolSize" name="corePoolSize" value="4"/>
+                </div>
+                <label for="name" class="col-sm-2 control-label">任务数</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="taskNum" name="taskNum" value="100"/>
+                </div>
+                <label for="name" class="col-sm-2 control-label">超时</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="timeout" name="timeout" value="10000"/>
+                </div>
+                <label for="name" class="col-sm-2 control-label">Cookies</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="cookie" name="cookie" value="thw=cn; cna=PtnlDW2mNTcCAd9fScrjGLUD; ali_ab=223.95.73.202.1432711058109.2; mobileSendTime=-1; credibleMobileSendTime=-1; ctuMobileSendTime=-1; riskMobileBankSendTime=-1; riskMobileAccoutSendTime=-1; riskMobileCreditSendTime=-1; riskCredibleMobileSendTime=-1; riskOriginalAccountMobileSendTime=-1; ac-stat=no; _ga=GA1.2.286688591.1436428745; lzstat_uv=11007286542035636462|3043837@3117812@2066380; v=0; _tb_token_=GqID9uBA5prElB8; uc3=nk2=F4VxyUPQtg%3D%3D&id2=UoLU47g7oBVI&vt3=F8dASMyYa5YfZbCa7TE%3D&lg2=URm48syIIVrSKA%3D%3D; existShop=MTQ0MDQ3NDc3NQ%3D%3D; lgc=tss0823; tracknick=tss0823; skt=7273a81d4b3de31b; publishItemObj=Ng%3D%3D; _cc_=W5iHLLyFfA%3D%3D; tg=0; mt=ci=2_1&cyk=0_0; uc1=cookie14=UoWzWcB%2Fh%2BU3mQ%3D%3D; cookie2=1cc47fc297741bc3b17f07102359600d; t=1814a8f1792ea50478e30dfa525f5687; swfstore=175838; l=Anx8iRTS19my8WTTBu3tC8-EzAQudSCf; x=e%3D1%26p%3D*%26s%3D0%26c%3D0%26f%3D0%26g%3D0%26t%3D0%26__ll%3D-1%26_ato%3D0; isg=335EC5228AC360097BEDA464BC080C1B"/>
+                </div>
+            </div>
+        </div><!-- /.box-body -->
+        <div class="box-footer">
+            <button type="button" id="btnRunCheck"  class="btn btn-info pull-right">检测开始</button>
+        </div><!-- /.box-footer -->
+    </form>
+</div><!-- /.box -->
+<!-- CK Editor -->
+<script type="text/javascript">
+    $(function () {
+
+        //save
+        $("#btnRunCheck").click(function(){
+            var params = getFormParams("#chkForm");
+            $.post(basePath+"/taskExecute/checkReqUrl.htm",params,function(data){
+                alert(data);
+            });
+        });
+
+    });
+
+
+</script>

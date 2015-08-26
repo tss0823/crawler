@@ -2,6 +2,7 @@ package com.usefullc.crawler.web;
 
 import com.usefullc.crawler.common.dto.ProxyDto;
 import com.usefullc.crawler.common.dto.TaskExecuteDto;
+import com.usefullc.crawler.common.http.ReqParam;
 import com.usefullc.crawler.domain.Proxy;
 import com.usefullc.crawler.service.ITaskExecuteService;
 import org.apache.commons.collections.CollectionUtils;
@@ -63,6 +64,8 @@ public class TaskExecuteController  extends BaseController {
     @RequestMapping(value = "/checkHighQualityProxy.htm")
     @ResponseBody
     public List<ProxyDto> checkHighQualityProxy(@RequestParam String url,@RequestParam String content){
+        content = content.replaceAll("\\r","");
+        content = content.replaceAll("\\n","");
         List<Proxy> proxyList = new java.util.ArrayList<Proxy>();
         StringTokenizer st = new StringTokenizer(content,",");
         while(st.hasMoreElements()){
@@ -76,5 +79,13 @@ public class TaskExecuteController  extends BaseController {
         }
         List<ProxyDto> proxyDtoList = taskExecuteService.checkHighQualityProxy(url,proxyList);
         return proxyDtoList;
+    }
+
+    @RequestMapping(value = "/checkReqUrl.htm")
+    @ResponseBody
+    public String checkReqUrl(@RequestParam String url,@RequestParam Integer taskNum,@RequestParam Integer corePoolSize,
+                              ReqParam reqParam){
+        taskExecuteService.checkReqUrl(url,reqParam,taskNum,corePoolSize);
+        return "ok";
     }
 }

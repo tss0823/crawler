@@ -192,6 +192,42 @@ public class TaskExecuteServiceImpl implements ITaskExecuteService,ApplicationCo
 
     }
 
+    public void checkReqUrl(final String url,final ReqParam reqParam,Integer taskNum,Integer corePoolSize ){
+        log.info("taskNum="+taskNum);
+        List<CThread> taskList = new java.util.ArrayList<CThread>(taskNum);
+        for(int i = 0; i < taskNum; i++){
+            CThread myThread = new CThread(i);
+            Map<String,Object> taskParamMap = new HashMap<String, Object>();
+            myThread.setParamMap(taskParamMap);
+            taskList.add(myThread);
+        }
+        TaskExecuteHelper.execute(corePoolSize, corePoolSize, taskList, new ITaskBizExecute() {
+            public void init(Map<String, Object> initMap) {
+
+            }
+
+            public void execute(CThread cThread) {
+                Connection.Response response = HttpHelper.req(url,reqParam);
+                if(response.statusCode() == 200){
+
+                }
+            }
+
+            public void afterExecute(CThread cThread) {
+
+            }
+
+            public void terminated() {
+
+            }
+
+            public List<Map<String, Object>> getBeforeReqParamList() {
+                return null;
+            }
+        });
+
+    }
+
     public List<ProxyDto> checkHighQualityProxy(final String url, List<Proxy> proxyList) {
         int size = proxyList.size();
         log.info("proxy size="+size);
@@ -206,7 +242,7 @@ public class TaskExecuteServiceImpl implements ITaskExecuteService,ApplicationCo
         }
         final List<ProxyDto> proxyDtoList = new CopyOnWriteArrayList<ProxyDto>();
 
-        TaskExecuteHelper.execute(3, 3, taskList, new ITaskBizExecute() {
+        TaskExecuteHelper.execute(2, 2, taskList, new ITaskBizExecute() {
             public void init(Map<String, Object> initMap) {
 
             }
@@ -218,6 +254,7 @@ public class TaskExecuteServiceImpl implements ITaskExecuteService,ApplicationCo
 //                System.setProperty("http.proxyHost", proxy.getIp());
 //                System.setProperty("http.proxyPort", String.valueOf(proxy.getPort()));
                 ReqParam reqParam = new ReqParam();
+                reqParam.setTimeout(15000);
                 reqParam.setProxyInfo(new ProxyInfo(proxy.getIp(),proxy.getPort()));
                 Connection.Response response = HttpHelper.req(url,reqParam);
                 if(response.statusCode() == 200){

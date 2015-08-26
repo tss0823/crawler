@@ -17,7 +17,7 @@ public class ReqParam implements Serializable {
 
     private String agentType;  //pc,mobile
 
-    private Map<String,String> cookies;  //
+    private String cookie;  //
 
     private Map<String,String> data;
 
@@ -55,12 +55,13 @@ public class ReqParam implements Serializable {
         this.timeout = timeout;
     }
 
-    public Map<String, String> getCookies() {
-        return cookies;
+
+    public String getCookie() {
+        return cookie;
     }
 
-    public void setCookies(Map<String, String> cookies) {
-        this.cookies = cookies;
+    public void setCookie(String cookie) {
+        this.cookie = cookie;
     }
 
     public Map<String, String> getData() {

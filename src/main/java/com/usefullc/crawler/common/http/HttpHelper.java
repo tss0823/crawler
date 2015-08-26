@@ -94,8 +94,8 @@ public class HttpHelper {
             if(reqParam.getMethod() != null){
                 connection.method(reqParam.getMethod());
             }
-            if(reqParam.getCookies() != null){
-                connection.cookies(reqParam.getCookies());
+            if(StringUtils.isNotEmpty(reqParam.getCookie())){
+                connection.cookie("Cookie",reqParam.getCookie());
             }
             if(reqParam.getHeaders() != null){
                 Set<Map.Entry<String,String>> set = reqParam.getHeaders().entrySet();

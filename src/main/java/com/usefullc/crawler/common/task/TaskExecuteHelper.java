@@ -36,9 +36,17 @@ public class TaskExecuteHelper {
                         CThread myThread = (CThread) r;
                         Long startTime = myThread.getStartTime();
                         int index = myThread.getIndex();
-                        System.out.println(
-                                Thread.currentThread().getName() + "finish! take time=" + (System.currentTimeMillis()
-                                        - startTime) + "," + index);
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(Thread.currentThread().getName() );
+                        sb.append(" finish! index="+index+",take time=" );
+                        sb.append(System.currentTimeMillis()- startTime);
+                        sb.append(",success="+myThread.isSucccess());
+                        if(!myThread.isSucccess()){
+                            sb.append("\r\n");
+                            sb.append(myThread.getStackErrMsg());
+                        }
+                        log.info(sb.toString());
+
                         //业务执行start
                         taskBizExecute.afterExecute(myThread);
 

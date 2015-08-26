@@ -11,10 +11,10 @@ import java.util.*;
 /**
  * Created by shengshan.tang on 8/3/2015 at 3:19 PM
  */
-public class ProxyScript2 {
+public class Script_345c7f38860ac8643067cd02402a7725 {
 
     public List<String> execute(Map<String,Object> paramMap){
-        System.out.println("testscript ok!");
+        System.out.println("testscript 33333 ok!");
         List<String> proxyList = new ArrayList();
         try{
             Connection.Response response = (Connection.Response) paramMap.get("response");
@@ -29,6 +29,7 @@ public class ProxyScript2 {
                 }
                 String host = ele.select("td").get(1).text().trim();
                 String port = ele.select("td").get(2).text().trim();
+                System.out.println(host+":"+port);
                 proxyList.add(host+":"+port);
 
             }
